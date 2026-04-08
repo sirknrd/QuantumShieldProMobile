@@ -4,10 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "core/**"
-      - "main.py"
-      - "ui.kv"
-      - "buildozer.spec"
+      - "mobile_terminal/**"
       - ".github/workflows/android-apk.yml"
 
 jobs:
@@ -37,8 +34,8 @@ jobs:
           pip install buildozer cython==0.29.36
 
       - name: Build APK (debug)
+        working-directory: mobile_terminal
         run: |
-          # Non-interactive CI: auto accept Android SDK licenses
           export APP_ANDROID_ACCEPT_SDK_LICENSE=1
           yes | buildozer -v android debug
 
@@ -46,5 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: quantumshieldmobile-apk
-          path: bin/*.apk
-
+          path: mobile_terminal/bin/*.apk
